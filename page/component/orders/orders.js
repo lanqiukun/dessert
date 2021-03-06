@@ -41,15 +41,61 @@ Page({
   },
 
   toPay() {
-    wx.showModal({
-      title: '提示',
-      content: '支付系统接口未实现',
-      text:'center',
-      complete() {
-        wx.switchTab({
-          url: '/page/component/index'
+    
+    let token = wx.getStorageSync('token')
+
+    wx.request({
+      url: 'https://dessert.gign.xyz/api/order',
+      method: "POST",
+      data: {
+        product_id: 1,
+        amount: 1,
+      },
+      success: response => {
+        
+        let result = response.data
+        console.log(result)
+
+
+        let nonceStr = result.nonceStr
+        let pay_package = result.package
+        let paySign = result.paySign
+        let timeStamp = result.timeStamp
+
+
+        console.log(nonceStr)
+        console.log(pay_package)
+        console.log(paySign)
+        console.log(timeStamp)
+
+
+
+
+        wx.requestPayment({
+          nonceStr,
+          package: pay_package,
+          paySign,
+          timeStamp,
+          signType: 'MD5',
+
+          success: res => {
+            wx.showToast({
+              title: '已成功支付',
+              icon: "success"
+            })
+          },
+          fail: res => {
+            wx.showToast({
+              title: '已放弃支付',
+              icon: "none"
+            })
+          }
         })
-      }
+
+      },
+
     })
+
+
   }
 })

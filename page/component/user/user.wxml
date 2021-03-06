@@ -1,5 +1,6 @@
 <view class="main">
     <view class="header">
+        <button size="mini" wx:if="{{show_login_btn}}" type="primary" plain open-type="getUserInfo" bindtap="login" bindgetuserinfo="get_user_info">登录</button>
         <image src="{{thumb}}" class="thumb"></image>
         <text class="nickname">{{nickname}}</text>
         <text class="about">关于我们</text>

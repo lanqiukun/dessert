@@ -5,21 +5,69 @@ Page({
     nickname:'',
     orders:[],
     hasAddress:false,
-    address:{}
+    address:{},
+    code: null,
+    show_login_btn: true, 
   },
+
+  login() {
+    wx.login({  success: e => { this.setData({ code: e.code })} })
+  },
+
+  get_user_info() {
+    wx.getUserInfo({
+      success: res => {
+        let encryptedData = res.encryptedData
+        let iv = res.iv
+
+        console.log(res)
+        
+        wx.request({
+          url: 'https://dessert.gign.xyz/api/login',
+          method: "POST",
+          data: {
+            iv,
+            encryptedData,
+            code: this.data.code,
+          },
+          success: response => {
+            console.log(response.data)
+
+            let result = response.data
+            if (result.status != 0) {
+              wx.showToast({
+                title: '登录失败，请重试',
+                icon: "none",
+              })
+
+              return
+            } 
+            
+            wx.setStorageSync('token', result.token)
+            this.setData({
+              thumb: res.userInfo.avatarUrl,
+              nickname: res.userInfo.nickName,
+              show_login_btn: false,
+            })
+
+            wx.showToast({
+              title: '登录成功',
+              icon: "none",
+            })
+
+          }
+        })
+
+
+        
+      }
+    })
+  },
+
   onLoad(){
     var self = this;
-    /**
-     * 获取用户信息
-     */
-    wx.getUserInfo({
-      success: function(res){
-        self.setData({
-          thumb: res.userInfo.avatarUrl,
-          nickname: res.userInfo.nickName
-        })
-      }
-    }),
+
+    
 
     /**
      * 发起请求获取订单列表信息

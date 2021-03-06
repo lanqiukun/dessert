@@ -19,6 +19,6 @@
 
     <view class="orders-footer">
         <view class="orders-footer-total">付款合计：￥{{total}}</view>
-        <view class="orders-footer-btn" bindtap="toPay">去付款</view>
+        <view class="orders-footer-btn" bindtap="toPay">付款</view>
     </view>
 </view>

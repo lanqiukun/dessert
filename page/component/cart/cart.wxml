@@ -1,7 +1,7 @@
 <view class="main">
     <view wx:if="{{hasList}}">
         <view class="cart-box">
-            <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
+            <view class="cart-list" wx:for="{{carts}}" wx:key="index">
                 <icon wx:if="{{item.selected}}" type="success" color="#87d0e3" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
                 <icon wx:else type="circle" class="cart-pro-select" color="#333" data-index="{{index}}" bindtap="selectList"/>
                 <navigator url="../details/details?id={{item.id}}"><image class="cart-thumb" src="{{item.image}}"></image></navigator>
