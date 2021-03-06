@@ -85,7 +85,7 @@ Page({
             })
 
             wx.switchTab({
-              url: 'page/component/user/user',
+              url: '/page/component/user/user',
             })
           },
           fail: res => {
