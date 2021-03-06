@@ -83,6 +83,10 @@ Page({
               title: '已成功支付',
               icon: "success"
             })
+
+            wx.switchTab({
+              url: 'page/component/user/user',
+            })
           },
           fail: res => {
             wx.showToast({
